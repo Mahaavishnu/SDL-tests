@@ -6,7 +6,9 @@ int			main(int argc, char *argv[])
 {
 	SDL_Window *win;
 	SDL_Renderer *ren;
-	SDL_Surface *screen = NULL;
+	SDL_Surface *screen;
+	SDL_Surface *drawing;
+	SDL_Rect position;
 
 	if (SDL_Init(SDL_INIT_VIDEO) == -1)
 	{
@@ -31,7 +33,24 @@ int			main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	screen = SDL_FillRect(ren, NULL, "black");
+
+	screen = SDL_GetWindowSurface(win);
+	SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 250, 0, 0));
+
+	position.x = 50;
+	position.y = 50;
+
+	drawing = SDL_CreateRGBSurface(SDL_SWSURFACE, 100, 100, 32, 0, 0, 0, 0);
+	SDL_FillRect(drawing, NULL, SDL_MapRGB(screen->format, 0, 255, 0));
+	SDL_BlitSurface(drawing, NULL, screen, &position);
+
+	if (SDL_UpdateWindowSurface(win) != 0)
+	{
+		fprintf(stderr, "SDL_UpdateWindowSurface Error : %s\n", SDL_GetError());
+		SDL_DestroyWindow(win);
+		SDL_Quit();
+		exit(EXIT_FAILURE);
+	}
 
 	SDL_Delay(8000);
 
