@@ -47,6 +47,7 @@ int			main(int argc, char *argv[])
 			drawing[x][y] = SDL_CreateRGBSurface(SDL_SWSURFACE, 1, 1, 32, 0, 0, 0, 0);
 			SDL_FillRect(drawing[x][y], NULL, SDL_MapRGB(screen->format, x, x, x));
 			SDL_BlitSurface(drawing[x][y], NULL, screen, &position);
+			SDL_FreeSurface(drawing[x][y]);
 		}
 		y = 0;
 	}
